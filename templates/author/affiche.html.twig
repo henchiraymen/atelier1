@@ -1,0 +1,47 @@
+
+<h1> liste des authors </h1> 
+<label>Recherche : </label><input type="text" placeholder="By title" id="search">
+<div id="t">
+{% for a in authors%}
+<ul> 
+<li> Le nom de l'author est: {{a.username}} </li>
+<li> L'email est: {{a.email}} </li>
+<li> Le nombre de Book est: {{a.nbBooks}} </li>
+<li> <a href="{{path('auth_modifier',{'id':a.id})}}">Modifier</a></li>
+{%if a.nbBooks == 0%}
+    <li> <a href="{{path('auth_supprimer',{'id':a.id})}}">Supprimer</a></li>
+{%endif%}
+</ul>
+{%endfor%}
+</div>
+<table border="1" id="tab">
+    
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<script>
+    $( document ).ready(function() {
+        $("#search").keyup(function(e){
+          var value = $(this).val();
+            $.ajax({
+                url : "{{ path('R') }}",
+                type : 'GET', 
+                data: {
+                        'nom' : value
+                    },                
+                success : function(retour){
+                    $("#t").html(retour);
+                  if(retour){
+                    $('#tab').empty();
+                    $('#tab').append('<tr><th>Id</th><th>Nom</th><th>Email</th></tr>');             
+                    $.each(JSON.parse(retour), function(i, obj) {
+                        $('#t').hide();
+                        $('#tab').append('<tr><td> '+obj.id+'</td><td>'+obj.username+'</td><td>'+obj.email+'</td></tr>');
+                    });
+                    }
+                },
+});
+});
+});
+</script>

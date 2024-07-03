@@ -1,0 +1,58 @@
+<h1> liste des books </h1> 
+
+<label>Recherche : </label><input type="text" placeholder="By title" id="input">
+
+{% for b in books%}
+<ul> 
+<li> Ref est: {{b.ref}} </li>
+<li> title est: {{b.title}} </li>
+<li> Category est: {{b.category}} </li>
+<li> Date de pub est: {{b.publicationDate | date}} </li>
+<li> etat est: {{b.published}} </li>
+<li> l'author est: {{b.author.username}} </li>
+<li> <a href="{{path('modifier',{'id':b.ref})}}">Modifier</a></li>
+<li> <a href="{{path('supprimer',{'id':b.ref})}}">Supprimer</a></li>
+</ul>
+{%endfor%}
+<table border="1" id="tab">
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+/*$(document).ready(function(){
+    //$("#ref").keyup();
+    $("#ref").on("keyup", function(e) {
+        var value=$(this).val();
+        $.ajax({
+            
+            type : 'GET',
+            url : "{{path('RechAjax')}}",
+            data : {'ref':value},
+            success : function(retour){
+                console.log('aa');
+                if(retour){
+                    console.log('bb');
+                    $("#tab").append("<tr><th>Reference</th><th>Title</th><th>Categorie</th></tr>");
+                    $.each(JSON.parse(retour),function(i,obj){
+                        $("#tab").append("<tr><td>"+obj.ref+"</td><td>"+obj.title+"</td><td>"+obj.category+"</td></tr>");
+                    });
+                }
+        }
+        });
+    });
+});*/
+$( document ).ready(function() {
+        $("#input").keyup(function(e){
+          var value = $(this).val();
+            $.ajax({
+                url :"{{path('RechAjax')}}",
+                type : 'GET', 
+                data: { 'ref' : value },                
+                success : function(retour){
+                    console.log('aa');
+                  
+                   
+                },
+});
+});
+});
+</script>

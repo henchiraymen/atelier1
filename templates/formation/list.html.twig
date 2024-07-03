@@ -1,0 +1,26 @@
+<h1> List of authors </h1>
+<h2>Number of authors {{authors|length}}</h2>
+{% if authors is defined and authors|length >0 %}
+<table border="1">
+<tr>
+<th> Name </th>
+<th> Email </th>
+<th> NbBooks </th>
+<th> Image </th>
+<th>Details</th>
+</tr>
+{% set total=0 %}
+{%for a in authors %}
+<tr>
+<td> {{a.username|upper}} </td>
+<td> {{a.email}} </td>
+<td> {{a.nb_books}} </td>
+{% set total= total + a.nb_books %}
+<td> <img src="{{asset(a.image)}}" width="100" height="100"> </td>
+<td> <a href="{{ path('d',{'i':a.id}) }}" > Details </a> </td>
+</tr>
+{%else%} No author
+{%endfor%}
+{% endif%}
+</table>
+<h2> {{total}}</h2>
